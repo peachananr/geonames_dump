@@ -11,7 +11,7 @@ module GeonamesDump
       case type
       when :auto # return an array of features
         # city name
-        ret = GeonamesCity.joins("left join geonames_countries on country_code = iso").where("country ILIKE '%#{query}%' or name ILIKE '%#{query}%' or asciiname ILIKE '%#{query}%'  or alternatenames ILIKE '%#{query}% '")
+        ret = GeonamesCity.joins("left join geonames_countries on country_code = iso").where("country ILIKE '%#{query}%' or name ILIKE '%#{query}%' or asciiname ILIKE '%#{query}%'  or alternatenames ILIKE '%#{query}% '").select("geonames_features.*,geonames_countries.country as country")
       else # country, or specific type
         model = "geonames_#{type.to_s}".camelcase.constantize
         ret = model.search(query)
