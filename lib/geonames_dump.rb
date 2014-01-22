@@ -11,10 +11,10 @@ module GeonamesDump
       case type
       when :auto # return an array of features
         
-        countries = GeonamesCountry.where("country ILIKE '%#{query}%'").select("country, 'country' as type")
+        countries = GeonamesCountry.where("country ILIKE '%#{query}%'").select("country, 'country' as type").limit(options[:limit])
         
         # city name
-        cities = GeonamesCity.joins("left join geonames_countries on country_code = iso").where("country ILIKE '%#{query}%' or name ILIKE '%#{query}%' or asciiname ILIKE '%#{query}%'  or alternatenames ILIKE '%#{query}% '").select("geonames_features.*,geonames_countries.country as country, 'city' as type")
+        cities = GeonamesCity.joins("left join geonames_countries on country_code = iso").where("country ILIKE '%#{query}%' or name ILIKE '%#{query}%' or asciiname ILIKE '%#{query}%'  or alternatenames ILIKE '%#{query}% '").select("geonames_features.*,geonames_countries.country as country, 'city' as type").limit(options[:limit])
         
         ret = countries + cities
       else # country, or specific type
