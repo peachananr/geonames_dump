@@ -13,10 +13,12 @@ module GeonamesDump
         
         countries = GeonamesCountry.where("country ILIKE '%#{query}%'").select("country, 'country' as tag_type").limit(options[:limit])
         
+        states = GeonamesAdmin1.joins("left join geonames_countries on country_code = iso").where("name ILIKE '%#{query}%' or asciiname ILIKE '%#{query}%' or alternatenames ILIKE '%#{query}% ").select("name,geonames_countries.country as country, 'states' as tag_type").limit(options[:limit])
+        
         # city name
         cities = GeonamesCity.joins("left join geonames_countries on country_code = iso").where("country ILIKE '%#{query}%' or name ILIKE '%#{query}%' or asciiname ILIKE '%#{query}%'  or alternatenames ILIKE '%#{query}% '").select("geonames_features.*,geonames_countries.country as country, 'city' as tag_type").limit(options[:limit])
         
-        ret = countries + cities
+        ret = countries + states + cities 
       else # country, or specific type
         model = "geonames_#{type.to_s}".camelcase.constantize
         ret = model.search(query)
