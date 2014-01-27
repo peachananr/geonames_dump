@@ -16,7 +16,7 @@ module GeonamesDump
         states = GeonamesAdmin1.joins("left join geonames_countries on country_code = iso").where("name ILIKE '%#{query}%' or asciiname ILIKE '%#{query}%' or alternatenames ILIKE '%#{query}%'").select("geonames_features.*,geonames_countries.country as country, 'states' as tag_type").limit(options[:limit])
         
         # city name
-        cities = GeonamesCity.joins("left join geonames_countries on country_code = iso").where("country ILIKE '%#{query}%' or name ILIKE '%#{query}%' or asciiname ILIKE '%#{query}%' or alternatenames ILIKE '%#{query}%'").select("geonames_features.*,geonames_countries.country as country, 'city' as tag_type").limit(options[:limit])
+        cities = GeonamesCity.joins("left join geonames_countries on country_code = iso").where("to_tsvector(country||' '||name||' '||asciiname||' '||alternatenames) @@ plainto_tsquery('#{query}')").select("geonames_features.*,geonames_countries.country as country, 'city' as tag_type")
         
         ret = countries + states + cities 
       else # country, or specific type
