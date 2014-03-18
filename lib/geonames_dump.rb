@@ -11,7 +11,7 @@ module GeonamesDump
       case type
       when :auto # return an array of features
         continent = GeonamesCountry.where("continent_s ILIKE '%#{query}%'").select("continent_s as name, 'continent' as tag_type").group("continent_s").limit(options[:limit])
-        countries = GeonamesCountry.where("country ILIKE '%#{query}%'").select("country, 'country' as tag_type").limit(options[:limit])
+        countries = GeonamesCountry.where("country ILIKE '%#{query}%'").select("country, continent_s, 'country' as tag_type").limit(options[:limit])
         
         states = GeonamesAdmin1.joins("left join geonames_countries on country_code = iso").where("name ILIKE '%#{query}%' or asciiname ILIKE '%#{query}%' or alternatenames ILIKE '%#{query}%'").select("geonames_features.*,geonames_countries.country as country, 'states' as tag_type").limit(options[:limit])
         
