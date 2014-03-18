@@ -10,16 +10,14 @@ module GeonamesDump
     begin
       case type
       when :auto # return an array of features
-        
+        continent = GeonamesCountry.where("continent_name ILIKE '%#{query}%'").select("continent, 'continent' as tag_type").limit(options[:limit])
         countries = GeonamesCountry.where("country ILIKE '%#{query}%'").select("country, 'country' as tag_type").limit(options[:limit])
         
-        states = GeonamesAdmin1.joins("left join geonames_countries on country_code = iso").where("name ILIKE '%#{query}%' or asciiname ILIKE '%#{query}%' or alternatenames ILIKE '%#{query}%'").select("geonames_features.*,geonames_countries.country as country, 'states' as tag_type").limit(options[:limit])
-        
-        # city name
+        states = GeonamesAdmin1.joins("left join geonames_countries on country_code = iso").where("search_vector @@ plainto_tsquery('#{query}')".select("geonames_features.*,geonames_countries.country as country, 'states' as tag_type").limit(options[:limit])
         
         cities = GeonamesCity.joins("left join geonames_countries on country_code = iso").where("search_vector @@ plainto_tsquery('#{query}')").select("geonames_features.*,geonames_countries.country as country, 'city' as tag_type")
         
-        ret = countries + states + cities 
+        ret = continent + countries + states + cities 
       else # country, or specific type
         model = "geonames_#{type.to_s}".camelcase.constantize
         ret = model.search(query)
