@@ -215,7 +215,7 @@ namespace :geonames_dump do
         # prepare data
         attributes = {}
         klass = main_klass
-
+        skip_line = false
         # skip comments
         next if line.start_with?('#')
 
@@ -224,7 +224,7 @@ namespace :geonames_dump do
         # read values
         line.strip.split("\t").each_with_index do |col_value, idx|
           if idx == 6 and (col_value != "P" and col_value != "L")
-            next
+            skip_line = true
           end
 
           col = col_names[idx]
@@ -239,6 +239,8 @@ namespace :geonames_dump do
             attributes[col] = col_value
           end
         end
+
+        next if skip_line == true
 
         # create or update object
         #if filter?(attributes) && (block && block.call(attributes))
