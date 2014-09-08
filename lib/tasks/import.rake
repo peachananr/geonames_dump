@@ -225,8 +225,8 @@ namespace :geonames_dump do
         line.strip.split("\t").each_with_index do |col_value, idx|
           if idx == 6 and (col_value != "P" and col_value != "L")
             skip_line = true
+            break
           end
-
           col = col_names[idx]
 
           # skip leading and trailing whitespace
