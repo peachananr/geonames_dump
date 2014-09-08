@@ -223,7 +223,7 @@ namespace :geonames_dump do
 
         # read values
         line.strip.split("\t").each_with_index do |col_value, idx|
-          next if ((idx == 6 and col_value != "P") or (idx == 6 and col_value != "L"))
+          puts "#{col_value} xxxxxxxx" if ((idx == 6))
 
           col = col_names[idx]
 
