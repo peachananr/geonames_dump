@@ -224,7 +224,6 @@ namespace :geonames_dump do
         # read values
         line.strip.split("\t").each_with_index do |col_value, idx|
           if idx == 6 and (col_value != "P" and col_value != "L")
-            puts "#{col_value} yyyyyyy"
             next
           end
 
