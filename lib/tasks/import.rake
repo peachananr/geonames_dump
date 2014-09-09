@@ -223,7 +223,7 @@ namespace :geonames_dump do
 
         # read values
         line.strip.split("\t").each_with_index do |col_value, idx|
-          if idx == 6 and (col_value != "P" and col_value != "L")
+          if idx == 7 and (col_value != "RGN" and col_value != "AREA" and col_value != "PRK" and col_value != "PPL" and col_value != "PPLS")
             skip_line = true
             break
           end
