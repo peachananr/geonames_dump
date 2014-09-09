@@ -219,11 +219,10 @@ namespace :geonames_dump do
         # skip comments
         next if line.start_with?('#')
 
-        line_counter += 1
+
 
         # read values
         line.strip.split("\t").each_with_index do |col_value, idx|
-          puts "#{col_value} xxxx" if idx == 7 
           if idx == 7 and (col_value != "RGN" and col_value != "AREA" and col_value != "PRK" and col_value != "PPL" and col_value != "PPLS")
 
             skip_line = true
@@ -243,7 +242,7 @@ namespace :geonames_dump do
         end
 
         next if skip_line == true
-
+        line_counter += 1
         # create or update object
         #if filter?(attributes) && (block && block.call(attributes))
         blocks.add_block do
