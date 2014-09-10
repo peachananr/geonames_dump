@@ -248,7 +248,7 @@ namespace :geonames_dump do
         blocks.add_block do
           primary_keys = primary_key.is_a?(Array) ? primary_key : [primary_key]
           if primary_keys.all? { |key| attributes.include?(key) }
-            object = klass.create(attributes)
+            #object = klass.create(attributes)
             #if ENV['QUICK']
             #  object = klass.create(attributes)
             #else
