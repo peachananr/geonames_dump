@@ -223,7 +223,8 @@ namespace :geonames_dump do
 
         # read values
         line.strip.split("\t").each_with_index do |col_value, idx|
-          if title == "Features" and idx == 7 and (col_value != "RGN" and col_value != "AREA" and col_value != "PRK" and col_value != "PPL" and col_value != "PPLS" and col_value != "PPLC")
+          #GeonamesFeature.where("feature_code != 'RGN' and feature_code != 'AREA'  and feature_code != 'PRK' and feature_code != 'PPL' and feature_code != 'PPLS' and feature_code != 'PPLC'")
+          if title == "Features" and idx == 7 and (col_value != "RGN" and col_value != "AREA" and col_value != "PPL" and col_value != "PPLS" and col_value != "PPLC" and col_value != "PPLA" and col_value != "PPLA2")
             skip_line = true
             break
           end
