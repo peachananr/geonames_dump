@@ -224,10 +224,19 @@ namespace :geonames_dump do
         # read values
         line.strip.split("\t").each_with_index do |col_value, idx|
           #GeonamesFeature.where("feature_code != 'RGN' and feature_code != 'AREA'  and feature_code != 'PRK' and feature_code != 'PPL' and feature_code != 'PPLS' and feature_code != 'PPLC'")
+
+          if title == "Features" and idx == 0
+            if !GeonamesFeature.find_by_geonameid(col_value).nil?
+              skip_line = true
+              break
+            end
+          end
+
           if title == "Features" and idx == 7 and (col_value != "RGN" and col_value != "AREA" and col_value != "PRK" and col_value != "PPL" and col_value != "PPLS" and col_value != "PPLC" and col_value != "PPLA" and col_value != "PPLA2")
             skip_line = true
             break
           end
+
           col = col_names[idx]
 
           # skip leading and trailing whitespace
@@ -248,7 +257,7 @@ namespace :geonames_dump do
         blocks.add_block do
           primary_keys = primary_key.is_a?(Array) ? primary_key : [primary_key]
           if primary_keys.all? { |key| attributes.include?(key) }
-            object = klass.create(attributes)
+            #object = klass.create(attributes)
             if ENV['QUICK']
               object = klass.create(attributes)
             else
