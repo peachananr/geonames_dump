@@ -234,7 +234,7 @@ namespace :geonames_dump do
 
           #if title == "Features" and idx == 7 and (col_value != "RGN" and col_value != "AREA" and col_value != "PRK" and col_value != "PPL" and col_value != "PPLS" and col_value != "PPLC" and col_value != "PPLA" and col_value != "PPLA2")
           #if title == "Features" and idx == 7 and (col_value != "MT" and col_value != "DSRT" and col_value != "CNYN" and col_value != "MT" and col_value != "MTS" and col_value != "VLC")
-          if title == "Features" and idx == 7 and (col_value != "ADM3" and col_value != "ADM4" and col_value != "ADM5" and col_value != "LK" and col_value != "WAD" and col_value != "ISL" and col_value != "TRL")
+          if title == "Features" and idx == 7 and (col_value != "ADM3" and col_value != "ADM4" and col_value != "ADM5" and col_value != "LK" and col_value != "WAD" and col_value != "ISL" and col_value != "TRL" and col_value != "PASS")
             skip_line = true
             break
           end
